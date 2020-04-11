@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.layer.util.LayerSampler;
@@ -48,6 +49,19 @@ public class BiomeCalculator {
 
 	public int calculate(LayerSampler far, int x, int z) {
 		int squaredDist = x * x + z * z;
+
+		if (squaredDist < CENTRE_SQR_DIST) {
+			return 1; // plains
+		} else if (squaredDist < MIN_SQR_DIST) {
+			return 0; // ocean
+		} else if (squaredDist < MAX_SQR_DIST) {
+			int abx = Math.abs(x);
+			int abz = Math.abs(z);
+			int index = ((x > 0 ? 1 : 0) << 2) & ((z > 0 ? 1 : 0) << 1) & (abz > abx ? 1 : 0);
+			return Registry.BIOME.getRawId(this.biomes[index]);
+		} else {
+			return far.sample(x, z);
+		}
 	}
 
 	public static BiomeCalculator create() {
@@ -57,6 +71,12 @@ public class BiomeCalculator {
 	public static void setSeed(long seed) {
 		genSeed = seed;
 	}
+
+	// not at normal block nor chunk scale
+	public static final int CENTRE_SQR_DIST = 3 * 3; // centre plains island
+	public static final int MIN_SQR_DIST = 6 * 6;
+	public static final int MAX_SQR_DIST = 12 * 12;
+	public static final int REVERT_SQR_DIST = 18 * 18; // for reverting to normal terrain gen, at larger biome size
 
 	public static final Set<Biome> overworldBiomes = new HashSet<>();
 	private static long genSeed;
