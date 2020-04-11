@@ -6,8 +6,7 @@
   "mixins": [
     "MixinAddHillsLayer",
     "MixinBiomeLayers",
-    "MixinOverworldBiomes",
-    "MixinOverworldChunkGeneratorConfig"
+    "MixinOverworldBiomes"
   ],
   "injectors": {
     "defaultRequire": 1
