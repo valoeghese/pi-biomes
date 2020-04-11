@@ -77,7 +77,7 @@ public class BiomeCalculator {
 	// not at normal block nor chunk scale: much larger
 	public static final int CENTRE_SQR_DIST = 2 * 2; // centre plains island
 	public static final int MIN_SQR_DIST = 4 * 4;
-	public static final int MAX_SQR_DIST = 9 * 9;
+	public static final int MAX_SQR_DIST = 8 * 8;
 	public static final int REVERT_SQR_DIST = 12 * 12; // for reverting to normal terrain gen, at larger biome size
 
 	public static final Set<Biome> overworldBiomes = new HashSet<>();
