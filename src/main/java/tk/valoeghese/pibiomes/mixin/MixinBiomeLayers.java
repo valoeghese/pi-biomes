@@ -10,10 +10,11 @@ import net.minecraft.world.biome.source.BiomeLayerSampler;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.level.LevelGeneratorType;
 import tk.valoeghese.pibiomes.BiomeCalculator;
+import tk.valoeghese.pibiomes.Targets;
 
 @Mixin(BiomeLayers.class)
 public class MixinBiomeLayers {
-	@Inject(at = @At("HEAD"), method = "build")
+	@Inject(at = @At("HEAD"), method = Targets.BIOMELAYERS_BUILDSAMPLER)
 	private static void build(long seed, LevelGeneratorType generatorType, OverworldChunkGeneratorConfig settings, CallbackInfoReturnable<BiomeLayerSampler> info) {
 		BiomeCalculator.setSeed(seed);
 	}
