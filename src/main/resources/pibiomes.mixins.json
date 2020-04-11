@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "tk.valoeghese.pibiomes.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinAddHillsLayer",
+    "MixinBiomeLayers",
+    "MixinOverworldBiomes",
+    "MixinOverworldChunkGeneratorConfig"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

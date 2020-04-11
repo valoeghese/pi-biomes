@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
-  "version": "${version}",
+  "id": "pibiomes",
+  "version": "1.0.0",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Pi Biomes",
+  "description": "yes",
   "authors": [
-    "Me!"
+    "Valoeghese"
   ],
 
   "license": "MIT",
@@ -15,11 +15,11 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "tk.valoeghese.example.ExampleMod"
+      "tk.valoeghese.pibiomes.PiBiomes"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "pibiomes.mixins.json"
   ],
 
   "depends": {
