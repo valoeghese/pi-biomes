@@ -58,7 +58,6 @@ public class BiomeCalculator {
 		genSeed = seed;
 	}
 
-	private static final Set<Biome> 
 	public static final Set<Biome> overworldBiomes = new HashSet<>();
 	private static long genSeed;
 
