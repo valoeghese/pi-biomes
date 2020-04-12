@@ -60,7 +60,7 @@ public class BiomeCalculator {
 			int index = (x > 0 ? 4 : 0) | (z > 0 ? 2 : 0) | (abz > abx ? 1 : 0);
 			return Registry.BIOME.getRawId(this.biomes[index]);
 		} else if (squaredDist < REVERT_SQR_DIST) {
-			return 0; // ocean
+			return squaredDist < MAX_SQR_DIST + 2 ? 0 : Registry.BIOME.getRawId(Biomes.DEEP_OCEAN); // ocean ; deep ocean
 		} else {
 			return vanilla.sample(x, z); // vanilla
 		}
@@ -75,11 +75,11 @@ public class BiomeCalculator {
 	}
 
 	// not at normal block nor chunk scale: much larger
-	public static final int SCALE = 2;
-	public static final int CENTRE_SQR_DIST = 2 * 2 * SCALE; // centre plains island
-	public static final int MIN_SQR_DIST = 4 * 4 * SCALE;
-	public static final int MAX_SQR_DIST = 8 * 8 * SCALE;
-	public static final int REVERT_SQR_DIST = 12 * 12 * SCALE; // for reverting to normal terrain gen, at larger biome size
+	public static final int SCALE = 3;
+	public static final int CENTRE_SQR_DIST = 1 * SCALE * 1 * SCALE; // centre plains island
+	public static final int MIN_SQR_DIST = 2 * SCALE * 2 * SCALE;
+	public static final int MAX_SQR_DIST = 4 * SCALE * 4 * SCALE;
+	public static final int REVERT_SQR_DIST = 7 * SCALE * 7 * SCALE; // for reverting to normal terrain gen, at larger biome size
 
 	public static final Set<Biome> overworldBiomes = new HashSet<>();
 	private static long genSeed;
