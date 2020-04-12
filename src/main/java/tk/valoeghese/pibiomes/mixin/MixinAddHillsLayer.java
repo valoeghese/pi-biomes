@@ -1,25 +1,28 @@
 package tk.valoeghese.pibiomes.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 import net.minecraft.world.biome.layer.AddHillsLayer;
+import net.minecraft.world.biome.layer.type.MergingLayer;
+import net.minecraft.world.biome.layer.util.LayerFactory;
+import net.minecraft.world.biome.layer.util.LayerSampleContext;
 import net.minecraft.world.biome.layer.util.LayerSampler;
 import tk.valoeghese.pibiomes.BiomeCalculator;
-import tk.valoeghese.pibiomes.Targets;
+import tk.valoeghese.pibiomes.CommitBadLayer;
 
 @Mixin(AddHillsLayer.class)
-public class MixinAddHillsLayer {
-	// haha yes
-	@Redirect(at = @At(value = "INVOKE", target = Targets.LAYERSAMPLER_SAMPLE, ordinal = 0), method = Targets.ADDHILLS_SAMPLE)
-	public int calculateBiome(LayerSampler sampler, int x, int z) {
-		if (this.pibiomes$calculator == null) {
-			this.pibiomes$calculator = BiomeCalculator.create();
-		}
+public abstract class MixinAddHillsLayer implements MergingLayer {
+	@Override
+	public <R extends LayerSampler> LayerFactory<R> create(LayerSampleContext<R> context, LayerFactory<R> biome, LayerFactory<R> noise) {
+		LayerFactory<R> modifiedBiome = new CommitBadLayer(BiomeCalculator.create()).create(context, biome);
 
-		return this.pibiomes$calculator.calculate(sampler, x, z);
+		return () -> {
+			R layerSampler = modifiedBiome.make();
+			R layerSampler2 = noise.make();
+			return context.createSampler((i, j) -> {
+				context.initSeed((long)i, (long)j);
+				return this.sample(context, layerSampler, layerSampler2, i, j);
+			}, layerSampler, layerSampler2);
+		};
 	}
-
-	private BiomeCalculator pibiomes$calculator;
 }
